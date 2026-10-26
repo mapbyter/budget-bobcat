@@ -34,13 +34,6 @@ Back up the Postgres database. Settings > Export also downloads everything as JS
   It needs a Postgres: either `TEST_DATABASE_URL=postgres://user:pw@host:5432/postgres` (an admin login; it creates and drops `budget_test_it` and `budget_test_e2e`), or `npm install --no-save embedded-postgres` for a throwaway local one. Run `npm run build` first, or let the test build it.
 
 ## Publish and deploy as an image
-**Publish (once, by the maintainer).** Push this repo to GitHub. The workflow in `.github/workflows/docker-publish.yml` runs the type check and unit tests, then builds a multi-architecture image (Intel/AMD and ARM, including Raspberry Pi and Apple Silicon servers) and pushes it to `ghcr.io/<your-username>/<repository-name>` (name the repository `budget-bobcat`).
-`latest` follows the `main` branch; push a tag such as `v1.0.0` to also publish `1.0.0` and `1.0`.
-After the first run, open the package on GitHub (Packages > your repository name > Package settings) and set visibility to **Public** so anyone can pull it.
-Edit the `image:` line in `docker-compose.yml` to your image name.
 
 **Deploy (anyone).** Download only `docker-compose.yml`, set `DATABASE_URL`, `SESSION_SECRET` and `ORIGIN` (in the file, or in a `.env` beside it), then `docker compose up -d`. Update later with `docker compose pull && docker compose up -d`; migrations run automatically.
 The container exits with a clear message if `SESSION_SECRET` is shorter than 32 characters or `ORIGIN` is missing.
-
-Prefer Docker Hub? Replace the `images:` and login step in the workflow with your Docker Hub name and credentials, or build by hand:
-`docker buildx build --platform linux/amd64,linux/arm64 -t youruser/budget-bobcat:1.0.0 -t youruser/budget-bobcat:latest --push .`
