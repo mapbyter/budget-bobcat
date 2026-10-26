@@ -33,7 +33,7 @@ Back up the Postgres database. Settings > Export also downloads everything as JS
 - `npm run test:db`: runs the real migrations and exercises the recurring engine (catch-up, duplicate prevention, confirm-first, end dates) on a real Postgres, then starts the built app and walks through sign-up, budgeting, deposits, savings, recurring items, reports and export over HTTP.
   It needs a Postgres: either `TEST_DATABASE_URL=postgres://user:pw@host:5432/postgres` (an admin login; it creates and drops `budget_test_it` and `budget_test_e2e`), or `npm install --no-save embedded-postgres` for a throwaway local one. Run `npm run build` first, or let the test build it.
 
-## Publish and deploy as an image
+## Deploy as an image
 
-**Deploy (anyone).** Download only `docker-compose.yml`, set `DATABASE_URL`, `SESSION_SECRET` and `ORIGIN` (in the file, or in a `.env` beside it), then `docker compose up -d`. Update later with `docker compose pull && docker compose up -d`; migrations run automatically.
+**Deploy** Download only `docker-compose.yml`, set `DATABASE_URL`, `SESSION_SECRET` and `ORIGIN` (in the file, or in a `.env` beside it), then `docker compose up -d`. Update later with `docker compose pull && docker compose up -d`; migrations run automatically.
 The container exits with a clear message if `SESSION_SECRET` is shorter than 32 characters or `ORIGIN` is missing.
