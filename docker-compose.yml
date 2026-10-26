@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    image: budget-app:latest
+    image: ghcr.io/mapbyter/budget-bobcat:latest
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:3000"
